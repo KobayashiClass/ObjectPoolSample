@@ -33,7 +33,7 @@ public interface IFactory<T>
     /// オブジェクトを受け取ります
     /// </summary>
     /// <returns></returns>
-    T Get();
+    T Create();
 }
 
 /// <summary>
@@ -50,12 +50,12 @@ public class Factory<T> : IFactory<T> where T : MonoBehaviour
         m_src = src;
     }
 
-    public virtual T Get()
+    public virtual T Create()
     {
         return Create();
     }
 
-    protected T Create()
+    protected T Instantiate()
     {
         T t;
         if (m_src)
@@ -94,7 +94,7 @@ public class ObjectPool<T> : Factory<T> where T : MonoBehaviour, IPoolable
     /// プールから取得するか新しく生成する
     /// </summary>
     /// <returns>利用可能なオブジェクト</returns>
-    public override T Get()
+    public override T Create()
     {
         var index = FindFirstDisableIndex();
         T t;
@@ -136,7 +136,7 @@ public class ObjectPool<T> : Factory<T> where T : MonoBehaviour, IPoolable
 
     private T Push(bool isActive = false)
     {
-        var t = Create();
+        var t = Instantiate();
         m_instances.Add((t, isActive));
         t.Initialize();
         return t;

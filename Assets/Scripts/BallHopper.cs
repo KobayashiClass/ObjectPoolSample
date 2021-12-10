@@ -8,14 +8,14 @@ using UnityEngine;
 public class BallHopper : MonoBehaviour
 {
     Transform m_ballRoot;
-    IFactory<Ball> m_ballPool;
+    IFactory<Ball> m_ballFactory;
     Coroutine m_popCoroutine;
     [SerializeField] float m_popSpeed = 1f;
 
-    public void Initialize(IFactory<Ball> ballPool, Transform ballRoot)
+    public void Initialize(IFactory<Ball> ballFactory, Transform ballRoot)
     {
         m_ballRoot = ballRoot;
-        m_ballPool = ballPool;
+        m_ballFactory = ballFactory;
         PopStart();
     }
 
@@ -28,7 +28,7 @@ public class BallHopper : MonoBehaviour
     {
         while (true)
         {
-            var ball = m_ballPool.Get();
+            var ball = m_ballFactory.Create();
             ball.SetTransform(m_ballRoot, transform);
             yield return new WaitForSeconds(m_popSpeed);
         }
