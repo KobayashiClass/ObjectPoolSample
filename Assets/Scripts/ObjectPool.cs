@@ -27,7 +27,7 @@ public interface IPoolable
 /// オブジェクトを生成するできるインターフェース
 /// </summary>
 /// <typeparam name="T">生成する対象のコンポーネント</typeparam>
-public interface IFactory<T>
+public interface IFactory<out T>
 {
     /// <summary>
     /// オブジェクトを受け取ります
